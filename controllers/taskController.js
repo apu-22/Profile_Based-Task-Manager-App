@@ -38,6 +38,24 @@ const create = async (req, res, next) => {
   }
 };
 
+
+//Get tasks for logged-in user
+const getMyTasks = async (req, res, next) => {
+  try {
+    const { status } = req.query;
+
+    const tasks = await getTasksByUser(req.user.id, status);
+
+    res.status(200).json({
+      success: true,
+      tasks,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   create,
   getMyTasks,
