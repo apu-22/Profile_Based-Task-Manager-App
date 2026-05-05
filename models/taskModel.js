@@ -63,6 +63,32 @@ const deleteTask = async (id) => {
 };
 
 
+// Get all tasks (admin view)
+const getAllTasks = async (status = null) => {
+  if (status) {
+    const [rows] = await pool.execute(
+      `SELECT tasks.*, users.username 
+       FROM tasks 
+       JOIN users ON tasks.user_id = users.id 
+       WHERE tasks.status = ? 
+       ORDER BY tasks.created_at DESC`,
+      [status]
+    );
+
+    return rows;
+  }
+
+  const [rows] = await pool.execute(
+    `SELECT tasks.*, users.username 
+     FROM tasks 
+     JOIN users ON tasks.user_id = users.id 
+     ORDER BY tasks.created_at DESC`
+  );
+
+  return rows;
+};
+
+
 module.exports = {
   createTask,
   getTasksByUser,
