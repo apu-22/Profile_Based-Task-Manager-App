@@ -30,6 +30,17 @@ const getTasksByUser = async (userId, status = null) => {
 };
 
 
+// Get a single task by ID
+const getTaskById = async (id) => {
+  const [rows] = await pool.execute(
+    'SELECT * FROM tasks WHERE id = ?',
+    [id]
+  );
+
+  return rows[0];
+};
+
+
 module.exports = {
   createTask,
   getTasksByUser,
