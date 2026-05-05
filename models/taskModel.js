@@ -11,6 +11,25 @@ const createTask = async ({ title, description, status = 'pending', userId }) =>
 };
 
 
+//get tasks for a specific user
+const getTasksByUser = async (userId, status = null) => {
+  if (status) {
+    const [rows] = await pool.execute(
+      'SELECT * FROM tasks WHERE user_id = ? AND status = ? ORDER BY created_at DESC',
+      [userId, status]
+    );
+    return rows;
+  }
+
+  const [rows] = await pool.execute(
+    'SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC',
+    [userId]
+  );
+
+  return rows;
+};
+
+
 module.exports = {
   createTask,
   getTasksByUser,
