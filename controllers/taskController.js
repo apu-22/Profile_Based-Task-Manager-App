@@ -123,6 +123,38 @@ const update = async (req, res, next) => {
   }
 };
 
+
+//Delete task
+const remove = async (req, res, next) => {
+  try {
+    const task = await getTaskById(req.params.id);
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: 'Task not found',
+      });
+    }
+
+    if (task.user_id !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied',
+      });
+    }
+
+    await deleteTask(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Task deleted',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   create,
   getMyTasks,
