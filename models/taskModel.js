@@ -52,6 +52,17 @@ const updateTask = async (id, { title, description, status }) => {
 };
 
 
+// Delete task by ID
+const deleteTask = async (id) => {
+  const [result] = await pool.execute(
+    'DELETE FROM tasks WHERE id = ?',
+    [id]
+  );
+
+  return result.affectedRows;
+};
+
+
 module.exports = {
   createTask,
   getTasksByUser,
