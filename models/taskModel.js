@@ -41,6 +41,17 @@ const getTaskById = async (id) => {
 };
 
 
+// Update task by ID
+const updateTask = async (id, { title, description, status }) => {
+  const [result] = await pool.execute(
+    'UPDATE tasks SET title = ?, description = ?, status = ?, updated_at = NOW() WHERE id = ?',
+    [title, description, status, id]
+  );
+
+  return result.affectedRows;
+};
+
+
 module.exports = {
   createTask,
   getTasksByUser,
