@@ -56,6 +56,36 @@ const getMyTasks = async (req, res, next) => {
 };
 
 
+//Get a single task with id
+const getOne = async (req, res, next) => {
+  try {
+    const task = await getTaskById(req.params.id);
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: 'Task not found',
+      });
+    }
+
+    // Authorization check (owner or admin only)
+    if (task.user_id !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      task,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   create,
   getMyTasks,
