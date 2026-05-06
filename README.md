@@ -90,8 +90,7 @@ Each user can create, update, delete, and view only their own tasks, while admin
 
 1. Clone the repository:
 
-[```bash
-](https://github.com/apu-22/Profile_Based-Task-Manager-App)git clone <your-repo-link>
+[```bash]git clone <(https://github.com/apu-22/Profile_Based-Task-Manager-App)>
 cd profile-task-manager
 ```
 
